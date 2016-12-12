@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import os
 import datetime
+import csv
 from bs4 import BeautifulSoup
 
 # Defining user agent
@@ -10,33 +11,43 @@ USER_AGENT = \
 
 # Define Air Pollution Site
 URL = 'http://aqicn.org/city/kosovo/pristina/us-consulate/'
+# URL = 'brainpress.org'
 
 # We want to sue curl, and use a user-agent (-H)
 COMMAND = 'curl -s -H {} {}'.format(USER_AGENT, URL)
 
 
-def get_data():
-    # Dirty hack, not the best option, but requests has some weird issues with this site
+def scraper():
+    # Dirty hack, not the best option, but requests has some weird issues with
+    # this site
     file = os.popen(COMMAND).read()
 
-    # Import file into soup and use the html parser 
+    # Import file into soup and use the html parser
     soup = BeautifulSoup(file, 'html.parser')
 
-    # Select the air polution value
-    air_quality_value = soup.find('div', {'id': 'aqiwgtvalue'})
+    # Select the air pollution value
+    air_quality_value = soup.find('div', {'id': 'aqiwgtvalue'}).text
 
-    # Select the date when they updated the value  
-    air_quality_date = soup.find('span', {'id': 'aqiwgtutime'})
+    # Select info example: Unhealthy
+    info_text = soup.find('div', {'id': 'aqiwgtinfo'}).text
+
+    # Select the date when they updated the value
+    air_quality_date = soup.find('span', {'id': 'aqiwgtutime'}).text
 
     # Date when we visited the site last time
     date_we_run_the_scan = datetime.date.today()
 
-    # Print all of the above
-    print(air_quality_value.text, air_quality_date.text, date_we_run_the_scan)
+    # Write to CSV
+
+    data = [air_quality_value, info_text,
+            air_quality_date, date_we_run_the_scan]
+
+    out = csv.writer(open("data.csv", "a"), delimiter=',')
+    out.writerow(data)
 
 
 def main():
-    get_data()
+    scraper()
 
 
 if __name__ == '__main__':
