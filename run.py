@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import os
 import datetime
-import csv
+import sqlite3
 from bs4 import BeautifulSoup
 
 # Defining user agent
@@ -11,11 +11,13 @@ USER_AGENT = \
 
 # Define Air Pollution Site
 URL = 'http://aqicn.org/city/kosovo/pristina/us-consulate/'
-# URL = 'brainpress.org'
 
 # We want to sue curl, and use a user-agent (-H)
 COMMAND = 'curl -s -H {} {}'.format(USER_AGENT, URL)
 
+
+def connect_db():
+    return sqlite3.connect(app.config['DATABASE_PATH'])
 
 def scraper():
     # Dirty hack, not the best option, but requests has some weird issues with
@@ -37,13 +39,10 @@ def scraper():
     # Date when we visited the site last time
     date_we_run_the_scan = datetime.date.today()
 
-    # Write to CSV
+    # Write to DB
 
-    data = [air_quality_value, info_text,
-            air_quality_date, date_we_run_the_scan]
+    
 
-    out = csv.writer(open("data.csv", "a"), delimiter=',')
-    out.writerow(data)
 
 
 def main():
