@@ -13,7 +13,28 @@ with sqlite3.connect(DATABASE_PATH) as connection:
     TEXT NOT NULL)""")
 
     # insert dummy data into the table
+
     c.execute(
         'INSERT INTO air_pollution (air_value, text_value, updated_at, scraped_at)'
         'VALUES(57, "Moderate", "Updated on Monday 16:00", "2016-12-12")'
     )
+
+    c.close()
+
+# x = 1000
+# y = 0
+
+# while(x > y):
+#     from _config import DATABASE_PATH
+
+#     with sqlite3.connect(DATABASE_PATH) as connection:
+#         # get a cursor object used to execute SQL commands
+#         c = connection.cursor()
+
+#         c.execute(
+#             'INSERT INTO air_pollution (air_value, text_value, updated_at, scraped_at)'
+#             'VALUES(57, "Moderate", "Updated on Monday 16:00", "2016-12-12")'
+#         )
+#         y += 1
+#         print(y)
+# c.close()

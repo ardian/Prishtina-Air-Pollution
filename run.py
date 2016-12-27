@@ -16,8 +16,23 @@ URL = 'http://aqicn.org/city/kosovo/pristina/us-consulate/'
 COMMAND = 'curl -s -H {} {}'.format(USER_AGENT, URL)
 
 
-def connect_db():
-    return sqlite3.connect(app.config['DATABASE_PATH'])
+#def connect_db():
+    #return sqlite3.connect(app.config['DATABASE_PATH'])
+
+
+
+
+
+# for row in cursor:
+#    print ("ID = ", row[0])
+#    print ("Air Value = ", row[1])
+#    print ("Text Value = ", row[2])
+#    print ("Updated at = ", row[3])
+#    print ("Scraped at = ", row[4], "\n")
+
+
+
+
 
 def scraper():
     # Dirty hack, not the best option, but requests has some weird issues with
@@ -38,8 +53,30 @@ def scraper():
 
     # Date when we visited the site last time
     date_we_run_the_scan = datetime.date.today()
+#
+#
 
-    # Write to DB
+
+    print(air_quality_value, info_text, air_quality_date, date_we_run_the_scan)
+
+    #  Write to DB
+
+    #conn = sqlite3.connect('data.db')
+    #c = conn.cursor()
+    # cursor = conn.execute("SELECT air_value_id, air_value, text_value, updated_at, scraped_at  from AIR_POLLUTION")
+
+
+    # c = conn.execute('insert into air_pollution(, text_value, updated_at, scraped_at) values (?, ?, ?, ?)', , , , )
+    #c = conn.execute("INSERT INTO air_pollution(air_value, text_value, updated_at, scraped_at) VALUES (air_quality_value, info_text, air_quality_date, date_we_run_the_scan);")
+    #conn.commit()
+    #conn.close()
+
+    #  Get data from db, and compare...
+    #
+    # cursor = conn.execute("  SELECT * FROM air_pollution ORDER BY air_value_id DESC LIMIT 1")
+    #
+    # for row in cursor:
+    #     if (row == )
 
     
 
@@ -47,7 +84,7 @@ def scraper():
 
 def main():
     scraper()
-
+    print("Operation done successfully")
 
 if __name__ == '__main__':
     main()
